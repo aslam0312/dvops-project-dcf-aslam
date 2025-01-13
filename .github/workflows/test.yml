@@ -54,10 +54,6 @@ jobs:
       - name: Setup database schema with drizzle-kit
         run: npx drizzle-kit push
 
-      # Step 8: Run development server 
-      - name: Run development server
-        run: npx tsx index.ts &
-
       # Step 8: Run Jest tests for frontend
       - name: Run Jest tests
         run: npm test
