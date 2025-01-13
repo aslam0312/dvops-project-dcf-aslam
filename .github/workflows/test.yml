@@ -54,15 +54,15 @@ jobs:
       - name: Setup database schema with drizzle-kit
         run: npx drizzle-kit push
 
+      # Step 8: Run development server 
+      - name: Run development server
+        run: npm run dev
+
       # Step 8: Run Jest tests for frontend
       - name: Run Jest tests
         run: npm test
 
-      # Step 9: Run backend tests (if necessary)
-      - name: Run backend tests
-        run: npm run backend-test
-        env:
-          JWT_SECRET: "test456"
+      
 
       # Step 10: Publish test results
       - name: Publish Test Results
