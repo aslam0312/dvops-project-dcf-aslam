@@ -13,8 +13,8 @@ jobs:
       PORT: 3000
       DEBUG: true
       NODE_ENV: "development"
-      POSTGRES_PASSWORD: "test123"
-      JWT_SECRET: "test456"
+      POSTGRES_PASSWORD: "QTadFsylIQlo"
+      JWT_SECRET: "yO6txk2UBKucIKQZ"
 
     steps:
       - name: Checkout repository
