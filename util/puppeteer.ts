@@ -5,7 +5,7 @@ let browser: Browser | null = null
 export const initializeBrowser = async (): Promise<Browser> => {
   if (!browser) {
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       defaultViewport: null,
       slowMo: 25,
