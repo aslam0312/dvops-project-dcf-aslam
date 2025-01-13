@@ -56,7 +56,7 @@ jobs:
 
       # Step 8: Run development server 
       - name: Run development server
-        run: npm run dev
+        run: npx tsx index.ts
 
       # Step 8: Run Jest tests for frontend
       - name: Run Jest tests
