@@ -9,8 +9,6 @@
     "build": "node esbuild.cjs",
     "test": "jest --config jest.config.ts --coverage",
     "backend-test": "nyc --nycrc-path .nycrc-backend mocha test/chai.test.cjs"
-   
-
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.13.8",
@@ -23,6 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "nyc": "^17.1.0",
     "pg": "^8.13.1",
+    "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "zod": "^3.23.8"
   },

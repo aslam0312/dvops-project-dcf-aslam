@@ -1,0 +1,119 @@
+
+# name: Test Frontend and Backend
+
+# on:
+#   push:
+#   pull_request:
+#   workflow_dispatch:
+
+# jobs:
+#   test:
+#     name: Run Tests
+#     runs-on: ubuntu-latest
+#     env:
+#       PORT: 3000
+#       DEBUG: true
+#       NODE_ENV: "development"
+#       POSTGRES_PASSWORD: "QTadFsylIQlo"
+#       JWT_SECRET: "yO6txk2UBKucIKQZ"
+
+#     steps:
+#       # Step 1: Checkout code
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       # Step 2: Install Node.js
+#       - name: Install Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+#           cache: 'npm'
+
+#       # Step 3: Install dependencies
+#       - name: Install dependencies
+#         run: npm install
+
+#       # Step 4: Install required dependencies for headless browsers
+#       - name: Install browser dependencies
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install -y libnss3 libxss1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libgbm1 libgtk-3-0
+
+#       # Step 5: Start services with Docker Compose
+#       - name: Start Docker services
+#         run: docker compose up -d --wait --wait-timeout 30
+
+#       # Step 6: Wait for backend readiness
+#       - name: Wait for backend to be ready
+#         run: |
+#           for i in {1..10}; do
+#             curl -s http://localhost:3000 && break || sleep 5
+#           done
+
+#       # Step 7: Push database schema with Drizzle Kit
+#       - name: Setup database schema with drizzle-kit
+#         run: npx drizzle-kit push
+
+#       # Step 8: Run Jest tests for frontend
+#       - name: Run Jest tests
+#         run: npm test
+
+      
+
+#       # Step 10: Publish test results
+#       - name: Publish Test Results
+#         if: always()
+#         uses: actions/upload-artifact@v3
+#         with:
+#           name: test-results
+#           path: ./coverage
+
+#       # Step 11: Stop Docker services
+#       - name: Stop Docker Compose services
+#         run: docker compose down
+
+name: Test Frontend and Backend
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    env:
+      PORT: 3000
+      DEBUG: true
+      NODE_ENV: "development"
+      POSTGRES_PASSWORD: "test123"
+      JWT_SECRET: "test456"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      # Start Docker Compose services
+      - name: Start services with Docker Compose
+        run: docker compose up -d --wait --wait-timeout 30
+
+      # Push database schema with drizzle-kit
+      - name: Setup database schema with drizzle-kit
+        run: npx drizzle-kit push
+
+      - name: Run backend tests
+        run: npm run test
+
+      # Stop Docker Compose services
+      - name: Stop Docker Compose services
+        run: docker compose down
