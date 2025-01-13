@@ -1,0 +1,57 @@
+name: Test Frontend and Backend
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    env:
+      PORT: 3000
+      DEBUG: true
+      NODE_ENV: "development"
+      POSTGRES_PASSWORD: "test123"
+      JWT_SECRET: "test456"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      # Start Docker Compose services
+      - name: Start services with Docker Compose
+        run: docker compose up -d --wait --wait-timeout 30
+
+      # Push database schema with drizzle-kit
+      - name: Setup database schema with drizzle-kit
+        run: npx drizzle-kit push
+
+      # Run Jest tests
+      - name: Run Jest Tests
+        run: npm test
+
+      # # Run backend tests (Mocha)
+      # - name: Run Backend Tests
+      #   run: npm run backend-test
+      #   env:
+      #     JWT_SECRET: "test456"
+
+      # Publish test results
+      - name: Publish Test Results
+        if: always()
+        run: echo "Publishing test results (adjust if necessary)"
+
+      # Stop Docker Compose services
+      - name: Stop Docker Compose services
+        run: docker compose down
